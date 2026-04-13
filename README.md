@@ -7,7 +7,8 @@ This project features the full-custom, transistor-level design of a mini-process
 ### Technical Specifications
 * **ALU:** 4-bit addition and subtraction using Sign and Magnitude representation.
 * **Memory:** 64-bit SRAM Matrix (16 words x 4 bits).
-* **Peripherals:** * **4x16 Decoder:** For precise row addressing.
+* **Peripherals:**
+    * **4x16 Decoder:** For precise row addressing.
     * **Precharge Circuitry:** To stabilize bitlines before operations.
     * **Sense Amplifier:** Differential amplifier for reliable data reading.
 * **Synchronization:** Dual-stage D-Latch buffers for operand alignment and timing control.
