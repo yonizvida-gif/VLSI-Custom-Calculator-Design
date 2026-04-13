@@ -33,12 +33,11 @@ This project features the full-custom, transistor-level design of a mini-process
 ---
 
 ### Gallery
-*(Note: Upload your project images to an 'images' folder and update the links below)*
 
 | Top-Level Layout | SRAM Matrix |
 | :---: | :---: |
-| ![Layout](images/full_layout.png) | ![SRAM](images/sram_matrix.png) |
+| ![Layout](images/full%20layout.jpg) | ![SRAM](images/memory%20matrix.jpg) |
 
-| DRC Result | LVS Result |
-| :---: | :---: |
-| ![DRC](images/drc_log.png) | ![LVS](images/lvs_log.png) |
+| DRC & LVS Verification |
+| :---: |
+| ![DRC_LVS](images/drc%20lvs.jpg) |
