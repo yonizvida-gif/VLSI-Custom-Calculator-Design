@@ -36,7 +36,7 @@ This project features the full-custom, transistor-level design of a mini-process
 
 | Top-Level Layout | SRAM Matrix |
 | :---: | :---: |
-| ![Layout](images/full_layout.jpg) | ![SRAM](images/memory_matrix.jpg) |
+| ![Layout](images/full_layout.jp0g) | ![SRAM](images/memory_matrix.jpg) |
 
 | DRC & LVS Verification |
 | :---: |
