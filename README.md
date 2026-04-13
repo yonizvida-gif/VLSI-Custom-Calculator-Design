@@ -1,5 +1,5 @@
 # Full-Custom Mini-Processor: 4-bit ALU with 64-bit SRAM Matrix Integration
-## Developed using Cadence Virtuoso | 125nm CMOS Technology
+## Developed using Cadence Virtuoso | 45nm CMOS Technology
 
 ### Project Overview
 This project features the full-custom, transistor-level design of a mini-processor system. It integrates a 4-bit Arithmetic Logic Unit (ALU) with a 64-bit SRAM memory architecture. The system manages data flow from user input to memory storage and supports feedback loops for complex calculations.
