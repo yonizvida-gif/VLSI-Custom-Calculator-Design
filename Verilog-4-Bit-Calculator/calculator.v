@@ -12,7 +12,7 @@ module calculator (
 
     // Memory and Counter
     reg signed [3:0] sram [15:0];
-    reg [3:0] addr_counter;              // Internal counter that increments on writes [2]
+    reg [3:0] addr_counter;              
     
     // Internal Latches (to prevent "garbage" calculations [3])
     reg signed [3:0] latch_a, latch_b;
