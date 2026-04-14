@@ -21,13 +21,12 @@ module calculator (
     integer i;
 
     // --- Combinational Logic ---
-
-    // ALU Logic: Operates on the values currently held in latches
+    // ALU Logic
     assign alu_result = (op_sel == 2'b01) ? (latch_a + latch_b) :
                         (op_sel == 2'b10) ? (latch_a - latch_b) : 4'b0000;
 
     // --- Sequential Logic ---
-
+    
     always @(posedge clk or posedge reset) begin
         if (reset) begin
             // Initial state: reset counter and clear memory
@@ -37,23 +36,23 @@ module calculator (
             for (i = 0; i < 16; i = i + 1) sram[i] <= 4'b0000;
         end 
         else begin
-            // 1. Loading User Data: Stores at current address and increments [2]
+            // Loading User Data: Stores at current address and increments
             if (load_en) begin
                 sram[addr_counter] <= data_in;
                 data_out           <= data_in;
-                addr_counter       <= addr_counter + 1'b1; // Auto-increment [2]
+                addr_counter       <= addr_counter + 1'b1; 
             end
 
-            // 2. Loading Operands for ALU: Captures from current memory output
-            // This happens when User triggers EnA/EnB while addr_counter is at the right spot
+            // Loading Operands for ALU: Captures from current memory output
+            
             if (en_a) latch_a <= sram[addr_counter - 1'b1]; // Load the last written value
             if (en_b) latch_b <= sram[addr_counter - 1'b1]; // Load the last written value
 
-            // 3. Executing ALU operation and Auto-Storing Result [2]
+            // Executing ALU operation and Auto-Storing Result
             if (op_sel == 2'b01 || op_sel == 2'b10) begin
                 sram[addr_counter] <= alu_result; // Write result to NEXT available address
                 data_out           <= alu_result;
-                addr_counter       <= addr_counter + 1'b1; // Auto-increment after result [2]
+                addr_counter       <= addr_counter + 1'b1; 
             end
         end
     end
