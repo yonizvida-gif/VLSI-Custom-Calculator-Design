@@ -14,7 +14,7 @@ module calculator (
     reg signed [3:0] sram [15:0];
     reg [3:0] addr_counter;              
     
-    // Internal Latches (to prevent "garbage" calculations [3])
+    // Internal Latches
     reg signed [3:0] latch_a, latch_b;
     wire signed [3:0] alu_result;
     
