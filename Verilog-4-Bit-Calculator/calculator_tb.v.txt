@@ -1,0 +1,118 @@
+// Code your testbench here
+// or browse Examples
+module calculator_tb;
+    reg clk, reset, load_en, en_a, en_b;
+    reg [1:0] op_sel;
+    reg signed [3:0] data_in;
+    wire signed [3:0] data_out;
+
+    reg signed [3:0] v_a, v_b, expected;
+    integer error = 0;
+    
+    event rst_en, rst_done;
+    event terminate_sim;
+  
+    calculator uut (
+        .clk(clk), .reset(reset), .data_in(data_in),
+        .load_en(load_en), .op_sel(op_sel),
+        .en_a(en_a), .en_b(en_b), .data_out(data_out)
+    );
+
+    initial begin // Clock generator
+      clk = 0;
+      forever 
+      #5 clk =~clk;
+    end
+  
+    always begin //reset
+      @(rst_en);
+      @(negedge clk);
+      reset = 1;
+      v_a = 0;   
+      v_b = 0;
+      @(negedge clk);
+      reset = 0;
+      -> rst_done; 
+    end 
+
+    initial begin
+        // --- Reset Phase ---
+        load_en = 0; op_sel = 0; en_a = 0; en_b = 0; data_in = 0;
+        #10 -> rst_en;
+        @(rst_done);
+        @(negedge clk);
+
+        fork : main_logic
+            begin
+              repeat(15000) begin
+                    v_a = $random % 8; 
+                    v_b = $random % 8;
+
+                    // STEP 1: Driving inputs on FALLING EDGE for stability
+                    @(negedge clk);
+                    if(reset) begin
+                      data_in = 0; load_en = 1;
+                    end
+                    else begin
+                      data_in = v_a; load_en = 1; //write data
+                    end
+                    @(negedge clk);
+                    load_en = 0; en_a = 1; //read data
+                    @(negedge clk);
+                    en_a = 0;
+
+                    // STEP 2: Driving second operand on FALLING EDGE
+                    @(negedge clk);
+                    data_in = v_b; load_en = 1; //write data
+                    @(negedge clk);
+                    load_en = 0; en_b = 1; //read data
+                    @(negedge clk);
+                    en_b = 0;
+
+                    // STEP 3: Execute and Check
+                    @(negedge clk);
+                    op_sel = $random;
+                    if(op_sel == 2'b01)
+                       expected = v_a + v_b;
+                    else if(op_sel == 2'b10)
+                       expected = v_a - v_b;
+                    //else expected = 0;
+                    @(negedge clk); // Wait for result to be captured in design
+                    
+                    if (op_sel == 2'b01 || op_sel == 2'b10) begin
+                      if (data_out != expected) begin
+                          $display("FAIL: at %0t A=%d, B=%d | Exp=%d, Got=%d",$time, v_a, v_b, expected, data_out);
+                          error = error + 1;
+                      end
+                    end 
+                    @(negedge clk); 
+                    op_sel = 2'b00;
+                end 
+                
+            end
+
+           repeat(20) begin
+              #($urandom_range(500,10000)); 
+              -> rst_en;
+              @(rst_done);
+           end
+        join
+      
+      #20 -> terminate_sim; 
+    end
+
+  
+    initial begin
+      $dumpfile("dump.vcd");
+      $dumpvars(0, calculator_tb);
+      @(terminate_sim);
+      $display("\n################################");
+      if(error == 0) 
+        $display("SIMULATION PASSED!");
+      else                   
+        $display("SIMULATION FAILED WITH %0d ERRORS", error);
+      $display("################################");
+      #10 $finish;
+    
+    end
+endmodule
