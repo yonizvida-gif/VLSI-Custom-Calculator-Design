@@ -5,7 +5,7 @@
 This project showcases the full-custom, transistor-level design of a synchronous computing block. It integrates a 4-bit Arithmetic Logic Unit (ALU) with a 64-bit SRAM matrix. The architecture focuses on the tight integration between memory storage and arithmetic operations, featuring a feedback loop for sequential data processing.
 
 ### System Architecture
-![System Architecture Diagram](images/system_architecture.jpg)
+<img src="images/system_architecture.jpg" alt="System Architecture Diagram" width="50%" height="auto">
 *Figure 1: High-level architectural block diagram illustrating the data path from user input through the SRAM matrix to the ALU and the write-back feedback loop.*
 
 
